@@ -5,11 +5,13 @@ import { State } from "./_middleware.ts";
 
 // deno-lint-ignore no-explicit-any
 export const handler: Handlers<any, State> = {
-  async GET(req, ctx) {
-    const url = new URL(req.url);
-    const todos = await (await fetch(`${url.origin}/api/todos`)).json();
-    console.log("url", url);
-    return ctx.render({ session: ctx.state.session, todos });
+  async GET(_req, ctx) {
+    const { data } = await ctx.state.supabaseClient.from("todos").select();
+
+    return await ctx.render({
+      todos: data,
+      user: ctx.state.session?.user.user_metadata,
+    });
   },
 };
 export default function Home(props: PageProps) {
