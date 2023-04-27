@@ -12,12 +12,11 @@ export const handler: Handlers<any, State> = {
       return new Response(null, { status: 400 });
     }
 
-    const { origin } = new URL(req.url);
     const { data, error } = await ctx.state.supabaseClient.auth.signInWithOAuth(
       {
         provider: provider as Provider,
         options: {
-          redirectTo: origin + "/login/success",
+          redirectTo: "/login/success",
         },
       }
     );
