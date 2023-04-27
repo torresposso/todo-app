@@ -12,6 +12,10 @@ export const handler: Handlers<any, State> = {
       return new Response(null, { status: 400 });
     }
 
+    const url = new URL(req.url);
+    console.log("domain", url);
+    console.log("URL", req.url);
+
     const { data, error } = await ctx.state.supabaseClient.auth.signInWithOAuth(
       {
         provider: provider as Provider,
