@@ -12,7 +12,7 @@ export interface State {
 
 export async function handler(
   req: Request,
-  ctx: MiddlewareHandlerContext<State>
+  ctx: MiddlewareHandlerContext<State>,
 ) {
   const headers = new Headers();
   const supabaseClient = createSupabaseClient(req.headers, headers);
@@ -21,7 +21,12 @@ export async function handler(
 
   const {
     data: { session },
+    error,
   } = await supabaseClient.auth.getSession();
+
+  if (error) {
+    console.log(error);
+  }
 
   ctx.state.session = session;
   ctx.state.supabaseClient = supabaseClient;

@@ -1,6 +1,6 @@
 import type { Handlers } from "$fresh/server.ts";
-import type { Provider } from "@supabase/supabase-js";
 import { State } from "@/routes/_middleware.ts";
+import type { Provider } from "@supabase/supabase-js";
 
 // deno-lint-ignore no-explicit-any
 export const handler: Handlers<any, State> = {
@@ -13,19 +13,19 @@ export const handler: Handlers<any, State> = {
     }
 
     const { origin } = new URL(req.url);
+
+    console.log("origin", origin);
+
     const { data, error } = await ctx.state.supabaseClient.auth.signInWithOAuth(
       {
         provider: provider as Provider,
         options: {
           redirectTo: origin + "/login/success",
         },
-      }
+      },
     );
 
     if (error) throw error;
-
-    console.log("url from supa", data.url);
-
     return new Response(null, { headers: { location: data.url }, status: 302 });
   },
 };

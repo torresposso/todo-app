@@ -1,7 +1,7 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import type { Handlers, PageProps } from "$fresh/server.ts";
-import OAuthLoginButton from "@/components/OAuthLoginButton.tsx";
 import { GitHub } from "@/components/Icons.tsx";
+import OAuthLoginButton from "@/components/OAuthLoginButton.tsx";
 import type { State } from "@/routes/_middleware.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -15,7 +15,7 @@ export const handler: Handlers<any, State> = {
     const {
       data: { session },
     } = await ctx.state.supabaseClient.auth.getSession();
-
+    console.log("session", session);
     if (session) {
       return new Response(null, {
         headers: {
@@ -28,7 +28,6 @@ export const handler: Handlers<any, State> = {
 
     return ctx.render();
   },
-
   //   async POST(req, ctx) {
   //     const form = await req.formData();
   //     const email = form.get("email") as string;
@@ -68,8 +67,8 @@ export default function LoginPage(props: PageProps) {
           <a href="/">logo</a>
 
           <OAuthLoginButton provider="github">
-            <GitHub class="inline mr-2 h-5 w-5 align-text-top" /> Login with
-            GitHub
+            <GitHub class="inline mr-2 h-5 w-5 align-text-top" />{" "}
+            Login with GitHub
           </OAuthLoginButton>
           <div class="text-center text-gray-500 hover:text-black mt-8">
             <a href="/signup">Don't have an account? Sign up</a>

@@ -8,7 +8,7 @@ export type SupabaseClient = ReturnType<typeof createSupabaseClient>;
 
 export function createSupabaseClient(
   requestHeaders: Headers,
-  responseHeaders?: Headers
+  responseHeaders?: Headers,
 ) {
   return createServerSupabaseClient<Database>({
     supabaseUrl: Deno.env.get("SUPABASE_API_URL")!,
@@ -33,7 +33,7 @@ export function createSupabaseClient(
 }
 
 // Required to bypass Row Level Security (RLS)
-export const supabaseAdminClient = createClient(
+export const supabaseClient = createClient(
   Deno.env.get("SUPABASE_API_URL")!,
-  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  Deno.env.get("SUPABASE_ANON_KEY")!,
 );
